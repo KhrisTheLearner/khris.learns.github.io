@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christophe Mumaracishyika | NLP Researcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4A84B;
+            --gold-light: #E8C97A;
+            --deep-green: #1A4D3E;
+            --forest: #2D5A4A;
+            --cream: #FDF8F0;
+            --charcoal: #1C1C1C;
+            --warm-gray: #6B6560;
+            --soft-white: #FAFAFA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', -apple-system, sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        /* Imigongo-inspired decorative pattern */
+        .pattern-strip {
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--charcoal) 0px,
+                var(--charcoal) 20px,
+                var(--gold) 20px,
+                var(--gold) 40px,
+                var(--deep-green) 40px,
+                var(--deep-green) 60px,
+                var(--gold) 60px,
+                var(--gold) 80px
+            );
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 8px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(253, 248, 240, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--deep-green);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--warm-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--charcoal);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 8rem 4rem 4rem;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-greeting {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--gold);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: var(--deep-green);
+        }
+
+        .hero-description {
+            font-size: 1.15rem;
+            color: var(--warm-gray);
+            max-width: 500px;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+        }
+
+        .btn-primary {
+            background: var(--deep-green);
+            color: var(--soft-white);
+            border: 2px solid var(--deep-green);
+        }
+
+        .btn-primary:hover {
+            background: var(--forest);
+            border-color: var(--forest);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 77, 62, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--charcoal);
+            border: 2px solid var(--charcoal);
+        }
+
+        .btn-secondary:hover {
+            background: var(--charcoal);
+            color: var(--soft-white);
+            transform: translateY(-2px);
+        }
+
+        .hero-image {
+            position: relative;
+            animation: fadeInUp 1s ease 0.3s forwards;
+            opacity: 0;
+        }
+
+        .hero-image-frame {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 4/5;
+            margin-left: auto;
+        }
+
+        .hero-image-frame::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--gold);
+            z-index: -1;
+        }
+
+        .hero-image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%);
+        }
+
+        .hero-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--deep-green) 0%, var(--forest) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-light);
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+        }
+
+        /* Floating accent elements */
+        .accent-shape {
+            position: absolute;
+            background: var(--gold);
+            opacity: 0.15;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .accent-1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            right: 5%;
+        }
+
+        .accent-2 {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 10%;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.25rem;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+        }
+
+        /* About Section */
+        #about {
+            background: var(--soft-white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            color: var(--charcoal);
+        }
+
+        .about-content p:first-of-type::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            float: left;
+            line-height: 1;
+            margin-right: 0.5rem;
+            color: var(--deep-green);
+            font-weight: 700;
+        }
+
+        .about-highlights {
+            background: var(--cream);
+            padding: 2rem;
+            border-left: 4px solid var(--gold);
+        }
+
+        .about-highlights h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--deep-green);
+        }
+
+        .highlight-item {
+            margin-bottom: 1.25rem;
+        }
+
+        .highlight-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--warm-gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .highlight-value {
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        /* Research Section */
+        .research-focus {
+            background: var(--deep-green);
+            color: var(--soft-white);
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .research-focus::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: var(--gold);
+            opacity: 0.1;
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .research-focus h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .research-focus p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            line-height: 1.8;
+        }
+
+        .research-areas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .research-card {
+            background: var(--soft-white);
+            padding: 2rem;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .research-card:hover {
+            border-bottom-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        }
+
+        .research-card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            font-size: 1.5rem;
+        }
+
+        .research-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--charcoal);
+        }
+
+        .research-card p {
+            color: var(--warm-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Blog Section */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: var(--soft-white);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .blog-card-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--deep-green), var(--forest));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .blog-card-image span {
+            font-size: 3rem;
+        }
+
+        .blog-card-content {
+            padding: 1.75rem;
+        }
+
+        .blog-card-meta {
+            font-size: 0.8rem;
+            color: var(--warm-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .blog-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--charcoal);
+            line-height: 1.4;
+        }
+
+        .blog-card p {
+            color: var(--warm-gray);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-card-link {
+            font-weight: 500;
+            color: var(--deep-green);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+
+        .blog-card-link:hover {
+            gap: 0.75rem;
+        }
+
+        /* Blog Post Page Styles */
+        .blog-post-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .blog-post-header {
+            margin-bottom: 3rem;
+        }
+
+        .blog-post-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .blog-post-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-post-excerpt {
+            font-size: 1.2rem;
+            color: var(--warm-gray);
+            font-weight: 300;
+            border-left: 3px solid var(--gold);
+            padding-left: 1.5rem;
+        }
+
+        .blog-post-content {
+            font-size: 1.1rem;
+            line-height: 1.9;
+        }
+
+        .blog-post-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            color: var(--charcoal);
+            margin: 2.5rem 0 1rem;
+        }
+
+        .blog-post-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            color: var(--charcoal);
+            margin: 2rem 0 0.75rem;
+        }
+
+        .blog-post-content p {
+            margin-bottom: 1.5rem;
+            color: var(--charcoal);
+        }
+
+        .blog-post-content code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--cream);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .blog-post-content pre {
+            background: var(--charcoal);
+            color: var(--soft-white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        .blog-post-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .blog-post-content blockquote {
+            border-left: 4px solid var(--gold);
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: var(--warm-gray);
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .comments-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            margin-bottom: 2rem;
+        }
+
+        /* Projects Section */
+        #projects {
+            background: var(--charcoal);
+            color: var(--soft-white);
+        }
+
+        #projects .section-title {
+            color: var(--soft-white);
+        }
+
+        .projects-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .project-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 2rem;
+            padding: 2rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: var(--gold);
+        }
+
+        .project-year {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--gold);
+            min-width: 80px;
+        }
+
+        .project-info h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-info p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95rem;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.35rem 0.75rem;
+            background: rgba(212, 168, 75, 0.15);
+            color: var(--gold-light);
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            border-radius: 2px;
+        }
+
+        /* CV Section */
+        .cv-preview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .cv-column h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--charcoal);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .cv-column h3::before {
+            content: '';
+            width: 30px;
+            height: 3px;
+            background: var(--gold);
+        }
+
+        .cv-item {
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--cream);
+            transition: border-color 0.3s ease;
+        }
+
+        .cv-item:hover {
+            border-color: var(--gold);
+        }
+
+        .cv-item-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--gold);
+            margin-bottom: 0.25rem;
+        }
+
+        .cv-item h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--charcoal);
+        }
+
+        .cv-item p {
+            color: var(--warm-gray);
+            font-size: 0.95rem;
+        }
+
+        .cv-download {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        /* Contact Section */
+        #contact {
+            background: var(--deep-green);
+            color: var(--soft-white);
+            text-align: center;
+        }
+
+        #contact .section-title {
+            color: var(--soft-white);
+        }
+
+        #contact .section-line {
+            background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+        }
+
+        .contact-text {
+            font-size: 1.15rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .contact-email {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold-light);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-email:hover {
+            color: var(--gold);
+            transform: scale(1.02);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--soft-white);
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            border-color: var(--gold);
+            background: rgba(212, 168, 75, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.85rem;
+        }
+
+        footer span {
+            color: var(--gold);
+        }
+
+        /* Loading indicator for blog posts */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--warm-gray);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--cream);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Status badges for posts */
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 2px;
+            margin-left: 0.5rem;
+        }
+
+        .status-published {
+            background: rgba(26, 77, 62, 0.1);
+            color: var(--deep-green);
+        }
+
+        .status-scheduled {
+            background: rgba(212, 168, 75, 0.2);
+            color: var(--gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 6rem 2rem 4rem;
+            }
+
+            .hero-description {
+                margin: 0 auto 2rem;
+            }
+
+            .hero-links {
+                justify-content: center;
+            }
+
+            .hero-image-frame {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            section {
+                padding: 4rem 2rem;
+            }
+
+            .about-grid,
+            .cv-preview {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .nav-links a {
+                font-size: 0.8rem;
+            }
+
+            .project-card {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .project-tags {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                display: none;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-email {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--charcoal);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 600px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pattern-strip"></div>
+    
+    <nav>
+        <a href="#" class="logo">CM</a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#cv">CV</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-btn" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <section class="hero">
+        <div class="accent-shape accent-1"></div>
+        <div class="accent-shape accent-2"></div>
+        
+        <div class="hero-content">
+            <p class="hero-greeting">Muraho · Hello · Welcome</p>
+            <h1>I'm <span>Christophe</span>, building NLP for languages that matter.</h1>
+            <p class="hero-description">
+                Fulbright Scholar & MS Data Science candidate at Mizzou, researching cross-lingual transfer learning for Kinyarwanda—working to bring 12 million speakers into the AI revolution.
+            </p>
+            <div class="hero-links">
+                <a href="#research" class="btn btn-primary">View Research →</a>
+                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+        
+        <div class="hero-image">
+            <div class="hero-image-frame">
+                <!-- Replace with your photo: <img src="your-photo.jpg" alt="Christophe Mumaracishyika"> -->
+                <div class="hero-image-placeholder">CM</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-header">
+            <span class="section-number">01</span>
+            <h2 class="section-title">About</h2>
+            <div class="section-line"></div>
+        </div>
+        
+        <div class="about-grid">
+            <div class="about-content">
+                <p>
+                    Growing up in Rwanda, I witnessed how language shapes opportunity. While global AI advances at breakneck speed, my native Kinyarwanda—spoken by 12 million people—remains largely invisible to these technologies. That's what drives my research: ensuring that African languages aren't left behind in the AI revolution.
+                </p>
+                <p>
+                    As a Fulbright Scholar pursuing my MS in Data Science & Analytics at the University of Missouri, I specialize in cross-lingual transfer learning for low-resource African languages. My thesis explores how morphology-aware NLP methods can improve educational assessment tools for Kinyarwanda, directly supporting Rwanda's Vision 2050 educational digitalization goals.
+                </p>
+                <p>
+                    Beyond the technical challenges, I'm deeply invested in building sustainable solutions—creating employment opportunities for Rwandan language specialists and establishing infrastructure that will outlast any single research project. I believe the best technology serves people, not the other way around.
+                </p>
+            </div>
+            
+            <div class="about-highlights">
+                <h3>Quick Facts</h3>
+                <div class="highlight-item">
+                    <div class="highlight-label">Current Role</div>
+                    <div class="highlight-value">MS Data Science Candidate</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-label">Institution</div>
+                    <div class="highlight-value">University of Missouri</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-label">Fellowship</div>
+                    <div class="highlight-value">Fulbright Scholar</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-label">Focus</div>
+                    <div class="highlight-value">Low-Resource NLP</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-label">Languages</div>
+                    <div class="highlight-value">Kinyarwanda, English, French</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research">
+        <div class="section-header">
+            <span class="section-number">02</span>
+            <h2 class="section-title">Research</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="research-focus">
+            <h3>Current Focus: Cross-lingual Transfer Learning for Kinyarwanda</h3>
+            <p>
+                How can morphology-aware transfer learning methods improve NLP performance for Kinyarwanda educational assessment with minimal annotated data? My thesis investigates novel approaches to tokenization, embedding, and model adaptation for morphologically rich Bantu languages.
+            </p>
+        </div>
+
+        <div class="research-areas">
+            <div class="research-card fade-in">
+                <div class="research-card-icon">🔤</div>
+                <h4>Morphological Analysis</h4>
+                <p>Developing tokenization strategies that respect the agglutinative structure of Kinyarwanda, where single words can encode complex grammatical relationships.</p>
+            </div>
+            
+            <div class="research-card fade-in">
+                <div class="research-card-icon">🌍</div>
+                <h4>Cross-lingual Transfer</h4>
+                <p>Leveraging knowledge from high-resource languages to bootstrap NLP capabilities for Kinyarwanda and other Bantu languages.</p>
+            </div>
+            
+            <div class="research-card fade-in">
+                <div class="research-card-icon">📚</div>
+                <h4>Educational AI</h4>
+                <p>Building practical tools for automated assessment and feedback in Rwandan educational contexts, supporting 3.8 million students.</p>
+            </div>
+            
+            <div class="research-card fade-in">
+                <div class="research-card-icon">📊</div>
+                <h4>Dataset Creation</h4>
+                <p>Curating high-quality annotated datasets for Kinyarwanda, establishing benchmarks for future research in the language.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog">
+        <div class="section-header">
+            <span class="section-number">03</span>
+            <h2 class="section-title">Blog</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div id="blog-posts-container" class="blog-grid">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading posts...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="section-header">
+            <span class="section-number">04</span>
+            <h2 class="section-title">Projects</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="projects-grid">
+            <div class="project-card fade-in">
+                <span class="project-year">2025</span>
+                <div class="project-info">
+                    <h4>Kinyarwanda Morphological Tokenizer</h4>
+                    <p>Custom tokenization library optimized for Kinyarwanda's agglutinative morphology, designed for educational text processing.</p>
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">NLP</span>
+                    <span class="tag">Open Source</span>
+                </div>
+            </div>
+            
+            <div class="project-card fade-in">
+                <span class="project-year">2025</span>
+                <div class="project-info">
+                    <h4>KinyaEdu Dataset</h4>
+                    <p>Annotated corpus of Rwandan educational texts for training and evaluating NLP models on assessment tasks.</p>
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Dataset</span>
+                    <span class="tag">Education</span>
+                </div>
+            </div>
+            
+            <div class="project-card fade-in">
+                <span class="project-year">Ongoing</span>
+                <div class="project-info">
+                    <h4>African NLP Reading Group</h4>
+                    <p>Monthly virtual meetup discussing recent papers and developments in NLP for African languages.</p>
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Community</span>
+                    <span class="tag">Research</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cv">
+        <div class="section-header">
+            <span class="section-number">05</span>
+            <h2 class="section-title">CV</h2>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="cv-preview">
+            <div class="cv-column">
+                <h3>Education</h3>
+                
+                <div class="cv-item fade-in">
+                    <div class="cv-item-date">2025 — Present</div>
+                    <h4>MS Data Science & Analytics</h4>
+                    <p>University of Missouri</p>
+                </div>
+                
+                <div class="cv-item fade-in">
+                    <div class="cv-item-date">2024 — 2025</div>
+                    <h4>Fulbright Scholar</h4>
+                    <p>U.S. Department of State</p>
+                </div>
+                
+                <!-- Add your previous education -->
+                <div class="cv-item fade-in">
+                    <div class="cv-item-date">Previous</div>
+                    <h4>Bachelor's Degree</h4>
+                    <p>[Your undergraduate institution]</p>
+                </div>
+            </div>
+            
+            <div class="cv-column">
+                <h3>Experience</h3>
+                
+                <div class="cv-item fade-in">
+                    <div class="cv-item-date">2025 — Present</div>
+                    <h4>Graduate Research Assistant</h4>
+                    <p>University of Missouri — NLP for Low-Resource Languages</p>
+                </div>
+                
+                <!-- Add your previous experience -->
+                <div class="cv-item fade-in">
+                    <div class="cv-item-date">Previous</div>
+                    <h4>Previous Role</h4>
+                    <p>[Your previous experience]</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cv-download">
+            <a href="#" class="btn btn-primary">Download Full CV (PDF) →</a>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-header" style="justify-content: center;">
+            <span class="section-number">06</span>
+            <h2 class="section-title">Get in Touch</h2>
+        </div>
+
+        <p class="contact-text">
+            I'm always interested in collaborations on African language technology, educational AI, or low-resource NLP research. Let's connect.
+        </p>
+
+        <a href="mailto:your.email@mail.missouri.edu" class="contact-email">your.email@mail.missouri.edu</a>
+
+        <div class="social-links">
+            <a href="https://github.com/yourusername" class="social-link" aria-label="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            <a href="https://linkedin.com/in/yourusername" class="social-link" aria-label="LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <a href="https://twitter.com/yourusername" class="social-link" aria-label="Twitter">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://scholar.google.com/citations?user=YOURID" class="social-link" aria-label="Google Scholar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Christophe Mumaracishyika. Built with purpose in Columbia, MO.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Design inspired by <span>Imigongo</span>, traditional Rwandan art.</p>
+    </footer>
+
+    <script>
+        // ============================================
+        // CONFIGURATION - UPDATE THESE VALUES
+        // ============================================
+        const CONFIG = {
+            // Your Notion Database ID (from the share link)
+            notionDatabaseId: 'YOUR_NOTION_DATABASE_ID',
+            
+            // Your deployment URL (update after deploying)
+            siteUrl: 'https://yourusername.github.io',
+            
+            // Giscus configuration (update after setting up)
+            giscus: {
+                repo: 'yourusername/yourusername.github.io',
+                repoId: 'YOUR_REPO_ID',
+                category: 'Blog Comments',
+                categoryId: 'YOUR_CATEGORY_ID'
+            }
+        };
+
+        // ============================================
+        // BLOG POSTS DATA
+        // For now, we'll use local data. Later this can 
+        // be connected to Notion via a serverless function
+        // ============================================
+        const blogPosts = [
+            {
+                id: '1',
+                title: 'Building Dummy Datasets for Low-Resource Language Research',
+                excerpt: 'A practical guide to creating synthetic training data when authentic annotated corpora are scarce.',
+                date: '2025-01-15',
+                status: 'draft', // 'published', 'draft', or 'scheduled'
+                scheduledDate: null,
+                emoji: '📝',
+                slug: 'dummy-datasets-low-resource',
+                content: `
+                    <p>When working with low-resource languages like Kinyarwanda, one of the biggest challenges is the lack of annotated training data...</p>
+                    <h2>Why Synthetic Data Matters</h2>
+                    <p>In the world of NLP, data is everything. But what happens when your language has limited digital presence?</p>
+                `
+            },
+            {
+                id: '2',
+                title: 'Why Kinyarwanda Breaks Standard NLP Tokenizers',
+                excerpt: 'Exploring the morphological complexity of Bantu languages and what it means for modern language models.',
+                date: '2025-01-20',
+                status: 'draft',
+                scheduledDate: null,
+                emoji: '🔬',
+                slug: 'kinyarwanda-tokenizers',
+                content: `
+                    <p>Standard tokenizers like BPE and WordPiece were designed with languages like English in mind...</p>
+                `
+            },
+            {
+                id: '3',
+                title: 'Reflections on the Fulbright Journey',
+                excerpt: 'Lessons learned navigating American academia as a Rwandan researcher focused on African language technology.',
+                date: '2025-02-01',
+                status: 'draft',
+                scheduledDate: null,
+                emoji: '🎓',
+                slug: 'fulbright-journey',
+                content: `
+                    <p>Six months into my Fulbright experience, I've learned more than I expected—not just about NLP, but about bridging worlds...</p>
+                `
+            }
+        ];
+
+        // ============================================
+        // RENDER BLOG POSTS
+        // ============================================
+        function renderBlogPosts() {
+            const container = document.getElementById('blog-posts-container');
+            
+            // Filter to only show published posts (or all for preview)
+            const publishedPosts = blogPosts.filter(post => {
+                if (post.status === 'published') return true;
+                if (post.status === 'scheduled' && new Date(post.scheduledDate) <= new Date()) return true;
+                // For development, show drafts too - remove this line for production
+                return true;
+            });
+
+            if (publishedPosts.length === 0) {
+                container.innerHTML = `
+                    <div class="loading">
+                        <p>No posts yet. Check back soon!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = publishedPosts.map(post => `
+                <article class="blog-card fade-in" onclick="openBlogPost('${post.slug}')">
+                    <div class="blog-card-image">
+                        <span>${post.emoji}</span>
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            ${formatDate(post.date)}
+                            ${post.status !== 'published' ? `<span class="status-badge status-${post.status}">${post.status}</span>` : ''}
+                        </div>
+                        <h4>${post.title}</h4>
+                        <p>${post.excerpt}</p>
+                        <span class="blog-card-link">Read More →</span>
+                    </div>
+                </article>
+            `).join('');
+
+            // Trigger fade-in animations
+            setTimeout(() => {
+                document.querySelectorAll('.blog-card.fade-in').forEach(el => {
+                    el.classList.add('visible');
+                });
+            }, 100);
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        function openBlogPost(slug) {
+            // For now, this will be handled by separate blog post pages
+            // You can create individual HTML files for each post
+            window.location.href = `blog/${slug}.html`;
+        }
+
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // ============================================
+        // SMOOTH SCROLL FOR NAV LINKS
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            renderBlogPosts();
+        });
+    </script>
+</body>
+</html>
