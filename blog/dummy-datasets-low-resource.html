@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Dummy Datasets for Low-Resource Language Research | Christophe Mumaragishyika</title>
+    <meta name="description" content="A practical guide to creating synthetic training data when authentic annotated corpora are scarce.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4A84B;
+            --gold-light: #E8C97A;
+            --deep-green: #1A4D3E;
+            --forest: #2D5A4A;
+            --cream: #FDF8F0;
+            --charcoal: #1C1C1C;
+            --warm-gray: #6B6560;
+            --soft-white: #FAFAFA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans 3', -apple-system, sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.7;
+        }
+
+        /* Imigongo pattern */
+        .pattern-strip {
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--charcoal) 0px,
+                var(--charcoal) 20px,
+                var(--gold) 20px,
+                var(--gold) 40px,
+                var(--deep-green) 40px,
+                var(--deep-green) 60px,
+                var(--gold) 60px,
+                var(--gold) 80px
+            );
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 8px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(253, 248, 240, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--deep-green);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--warm-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--charcoal);
+        }
+
+        /* Blog Post Container */
+        .blog-post-container {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--warm-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--deep-green);
+        }
+
+        /* Post Header */
+        .blog-post-header {
+            margin-bottom: 3rem;
+        }
+
+        .blog-post-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .reading-time {
+            color: var(--warm-gray);
+        }
+
+        .blog-post-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 700;
+            color: var(--charcoal);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-post-excerpt {
+            font-size: 1.25rem;
+            color: var(--warm-gray);
+            font-weight: 300;
+            border-left: 3px solid var(--gold);
+            padding-left: 1.5rem;
+            line-height: 1.7;
+        }
+
+        /* Post Content */
+        .blog-post-content {
+            font-size: 1.125rem;
+            line-height: 1.9;
+        }
+
+        .blog-post-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            color: var(--charcoal);
+            margin: 3rem 0 1.25rem;
+            position: relative;
+        }
+
+        .blog-post-content h2::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+
+        .blog-post-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            color: var(--charcoal);
+            margin: 2.5rem 0 1rem;
+        }
+
+        .blog-post-content p {
+            margin-bottom: 1.5rem;
+            color: var(--charcoal);
+        }
+
+        .blog-post-content a {
+            color: var(--deep-green);
+            text-decoration: underline;
+            text-decoration-color: var(--gold);
+            text-underline-offset: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .blog-post-content a:hover {
+            color: var(--gold);
+        }
+
+        .blog-post-content ul,
+        .blog-post-content ol {
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .blog-post-content li {
+            margin-bottom: 0.75rem;
+        }
+
+        .blog-post-content code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(212, 168, 75, 0.15);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+            color: var(--deep-green);
+        }
+
+        .blog-post-content pre {
+            background: var(--charcoal);
+            color: var(--soft-white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .blog-post-content pre::before {
+            content: attr(data-language);
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0.25rem 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .blog-post-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .blog-post-content blockquote {
+            border-left: 4px solid var(--gold);
+            padding: 1rem 0 1rem 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--warm-gray);
+            background: var(--soft-white);
+        }
+
+        .blog-post-content blockquote p {
+            margin-bottom: 0;
+        }
+
+        .blog-post-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .blog-post-content figure {
+            margin: 2rem 0;
+        }
+
+        .blog-post-content figcaption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--warm-gray);
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+
+        /* Highlight box for key points */
+        .key-point {
+            background: linear-gradient(135deg, var(--deep-green), var(--forest));
+            color: var(--soft-white);
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .key-point strong {
+            color: var(--gold-light);
+        }
+
+        /* Tags */
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 3rem 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .post-tag {
+            padding: 0.35rem 0.75rem;
+            background: rgba(26, 77, 62, 0.1);
+            color: var(--deep-green);
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            border-radius: 3px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .post-tag:hover {
+            background: var(--deep-green);
+            color: var(--soft-white);
+        }
+
+        /* Author Card */
+        .author-card {
+            display: flex;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: var(--soft-white);
+            border-radius: 8px;
+            margin: 3rem 0;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--deep-green), var(--forest));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-light);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .author-info h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            color: var(--warm-gray);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 2px solid var(--gold);
+        }
+
+        .comments-header {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .comments-description {
+            color: var(--warm-gray);
+            margin-bottom: 2rem;
+        }
+
+        /* Giscus container styling */
+        .giscus {
+            margin-top: 1.5rem;
+        }
+
+        /* Related Posts */
+        .related-posts {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .related-posts h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .related-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .related-post-card {
+            padding: 1.25rem;
+            background: var(--soft-white);
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .related-post-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .related-post-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .related-post-card span {
+            font-size: 0.8rem;
+            color: var(--warm-gray);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.85rem;
+            margin-top: 4rem;
+        }
+
+        footer span {
+            color: var(--gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .blog-post-container {
+                padding: 6rem 1.5rem 3rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .blog-post-content h2::before {
+                display: none;
+            }
+
+            .author-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pattern-strip"></div>
+    
+    <nav>
+        <a href="../index.html" class="logo">CM</a>
+        <ul class="nav-links">
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../index.html#research">Research</a></li>
+            <li><a href="../index.html#blog">Blog</a></li>
+            <li><a href="../index.html#projects">Projects</a></li>
+            <li><a href="../index.html#cv">CV</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <article class="blog-post-container">
+        <a href="../index.html#blog" class="back-link">← Back to all posts</a>
+        
+        <header class="blog-post-header">
+            <div class="blog-post-meta">
+                <span>January 15, 2025</span>
+                <span class="reading-time">• 8 min read</span>
+            </div>
+            <h1 class="blog-post-title">Building Dummy Datasets for Low-Resource Language Research</h1>
+            <p class="blog-post-excerpt">
+                A practical guide to creating synthetic training data when authentic annotated corpora are scarce—with examples from my work on Kinyarwanda NLP.
+            </p>
+        </header>
+
+        <div class="blog-post-content">
+            <p>
+                When working with low-resource languages like Kinyarwanda, one of the biggest challenges is the lack of annotated training data. While English NLP researchers can tap into massive datasets like Common Crawl or Wikipedia dumps containing billions of tokens, those of us working with African languages often start with just a few thousand sentences—if we're lucky.
+            </p>
+
+            <p>
+                This post shares practical strategies I've developed while building datasets for my thesis research on cross-lingual transfer learning for Kinyarwanda educational assessment. These techniques aren't perfect substitutes for authentic data, but they can help bootstrap your models when you're starting from near-zero.
+            </p>
+
+            <h2>Why Synthetic Data Matters</h2>
+            
+            <p>
+                In the world of NLP, data is everything. Modern transformer models are notoriously data-hungry—GPT-3 was trained on roughly 45TB of text data. But what happens when your language has limited digital presence?
+            </p>
+
+            <p>
+                For context, here's the reality for Kinyarwanda:
+            </p>
+
+            <ul>
+                <li>Wikipedia articles: ~7,000 (compared to 6+ million in English)</li>
+                <li>Common Crawl representation: Less than 0.001% of total data</li>
+                <li>Existing NLP tools: Minimal (no standard POS tagger, limited NER)</li>
+                <li>Annotated datasets: Virtually nonexistent for educational domains</li>
+            </ul>
+
+            <div class="key-point">
+                <strong>Key insight:</strong> Synthetic data isn't about replacing authentic data—it's about creating a foundation that allows your models to learn basic patterns before fine-tuning on the limited real data you have.
+            </div>
+
+            <h2>Strategy 1: Template-Based Generation</h2>
+
+            <p>
+                The simplest approach is template-based generation. You create sentence templates with slots that can be filled with different vocabulary items.
+            </p>
+
+            <pre data-language="python"><code># Simple template for educational assessment sentences
+templates = [
+    "Umwana {verb} {object} mu ishuri.",  # The child [verb] [object] at school
+    "{Subject} yiga {topic} n'umwete.",    # [Subject] studies [topic] with diligence
+    "Mwarimu {teacher_action} abanyeshuri {student_object}.",
+]
+
+# Vocabulary lists
+verbs = ["yandika", "asoma", "yiga", "akora"]
+objects = ["igitabo", "ibaruwa", "imyandikire"]
+
+# Generate combinations
+for template in templates:
+    for verb in verbs:
+        for obj in objects:
+            sentence = template.format(verb=verb, object=obj)
+            print(sentence)</code></pre>
+
+            <p>
+                This approach is limited but useful for creating baseline data for specific tasks like grammar checking or fill-in-the-blank exercises.
+            </p>
+
+            <h2>Strategy 2: Back-Translation</h2>
+
+            <p>
+                Back-translation leverages existing machine translation systems to create parallel data. The process works like this:
+            </p>
+
+            <ol>
+                <li>Start with English sentences in your target domain</li>
+                <li>Translate to Kinyarwanda using available MT (Google Translate, NLLB)</li>
+                <li>Have native speakers correct the translations</li>
+                <li>Use the corrected pairs for training</li>
+            </ol>
+
+            <blockquote>
+                "The key is not the initial translation quality—it's the correction process. Each correction teaches you something about where MT fails for your language."
+            </blockquote>
+
+            <h2>Strategy 3: Cross-lingual Transfer with Noise</h2>
+
+            <p>
+                This is where things get interesting. If you have data in a related language (for Kinyarwanda, this might be Kirundi or other Bantu languages), you can create noisy training data by applying systematic transformations.
+            </p>
+
+            <p>
+                The intuition is that morphologically similar languages share structural patterns, and models can learn to be robust to the "noise" of language variation.
+            </p>
+
+            <h2>What I'm Building Next</h2>
+
+            <p>
+                For my thesis work, I'm combining these strategies with a human-in-the-loop annotation pipeline. The goal is to create 5,000 annotated educational passages by my defense date. I'll share more details on the annotation interface and quality control processes in a future post.
+            </p>
+
+            <p>
+                If you're working on similar challenges for your language, I'd love to connect. Drop a comment below or reach out on Twitter.
+            </p>
+        </div>
+
+        <div class="post-tags">
+            <a href="#" class="post-tag">NLP</a>
+            <a href="#" class="post-tag">Kinyarwanda</a>
+            <a href="#" class="post-tag">Low-Resource Languages</a>
+            <a href="#" class="post-tag">Dataset Creation</a>
+            <a href="#" class="post-tag">Research</a>
+        </div>
+
+        <div class="author-card">
+            <div class="author-avatar">CM</div>
+            <div class="author-info">
+                <h4>Christophe Mumaragishyika</h4>
+                <p>Fulbright Scholar researching cross-lingual NLP for Kinyarwanda at the University of Missouri. Passionate about building AI that serves African languages.</p>
+            </div>
+        </div>
+
+        <!-- Comments Section with Giscus -->
+        <section class="comments-section">
+            <h3 class="comments-header">Comments & Discussion</h3>
+            <p class="comments-description">
+                Have questions, suggestions, or want to share your own experience with low-resource NLP? Join the conversation below. Comments are powered by GitHub Discussions.
+            </p>
+            
+            <!-- 
+            ============================================
+            GISCUS COMMENTS - SETUP INSTRUCTIONS
+            ============================================
+            
+            To enable comments, you need to:
+            
+            1. Go to https://giscus.app
+            2. Enter your GitHub repository (e.g., KhrisTheLearner/khris.learns.github.io)
+            3. Enable GitHub Discussions on your repo (Settings > Features > Discussions)
+            4. Choose "Discussion category" (create one called "Blog Comments")
+            5. Copy the generated script and replace the one below
+            
+            The script below is a placeholder - replace with your actual Giscus config
+            ============================================
+            -->
+            
+            <script src="https://giscus.app/client.js"
+                data-repo="KhrisTheLearner/khris.learns.github.io"
+                data-repo-id="YOUR_REPO_ID"
+                data-category="Blog Comments"
+                data-category-id="YOUR_CATEGORY_ID"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async>
+            </script>
+            
+            <noscript>
+                <p style="color: var(--warm-gray); font-style: italic;">
+                    Comments require JavaScript to load. Please enable JavaScript or 
+                    <a href="https://github.com/KhrisTheLearner/khris.learns.github.io/discussions">join the discussion on GitHub</a>.
+                </p>
+            </noscript>
+        </section>
+
+        <!-- Related Posts -->
+        <section class="related-posts">
+            <h3>Continue Reading</h3>
+            <div class="related-posts-grid">
+                <a href="kinyarwanda-tokenizers.html" class="related-post-card">
+                    <h4>Why Kinyarwanda Breaks Standard NLP Tokenizers</h4>
+                    <span>Coming Soon</span>
+                </a>
+                <a href="fulbright-journey.html" class="related-post-card">
+                    <h4>Reflections on the Fulbright Journey</h4>
+                    <span>Coming Soon</span>
+                </a>
+            </div>
+        </section>
+    </article>
+
+    <footer>
+        <p>© 2025 Christophe Mumaragishyika. Built with purpose in Columbia, MO.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Design inspired by <span>Imigongo</span>, traditional Rwandan art.</p>
+    </footer>
+</body>
+</html>
