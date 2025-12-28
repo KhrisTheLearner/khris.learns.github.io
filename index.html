@@ -1137,6 +1137,19 @@
             <div class="project-card fade-in">
                 <span class="project-year">2025</span>
                 <div class="project-info">
+                    <h4>Mukosozi</h4>
+                    <p>Kinyarwanda text correction application with synthetic error generation system for creating training data. The first comprehensive tool for Kinyarwanda spelling and grammar correction.</p>
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">NLP</span>
+                    <span class="tag">Web App</span>
+                </div>
+            </div>
+
+            <div class="project-card fade-in">
+                <span class="project-year">2025</span>
+                <div class="project-info">
                     <h4>Kinyarwanda Morphological Tokenizer</h4>
                     <p>Custom tokenization library optimized for Kinyarwanda's agglutinative morphology, designed for educational text processing.</p>
                 </div>
@@ -1162,8 +1175,8 @@
             <div class="project-card fade-in">
                 <span class="project-year">Ongoing</span>
                 <div class="project-info">
-                    <h4>African NLP Reading Group</h4>
-                    <p>Monthly virtual meetup discussing recent papers and developments in NLP for African languages.</p>
+                    <h4>MbazaNLP Community</h4>
+                    <p>Active contributor to the MbazaNLP community, working on NLP resources for Kinyarwanda and other African languages.</p>
                 </div>
                 <div class="project-tags">
                     <span class="tag">Community</span>
@@ -1291,6 +1304,7 @@
                 title: 'Building Dummy Datasets for Low-Resource Language Research',
                 excerpt: 'A practical guide to creating synthetic training data when authentic annotated corpora are scarce.',
                 date: '2025-01-15',
+                readTime: '8 min read',
                 status: 'draft', // 'published', 'draft', or 'scheduled'
                 scheduledDate: null,
                 emoji: '📝',
@@ -1306,6 +1320,7 @@
                 title: 'Why Kinyarwanda Breaks Standard NLP Tokenizers',
                 excerpt: 'Exploring the morphological complexity of Bantu languages and what it means for modern language models.',
                 date: '2025-01-20',
+                readTime: '6 min read',
                 status: 'draft',
                 scheduledDate: null,
                 emoji: '🔬',
@@ -1319,6 +1334,7 @@
                 title: 'Reflections on the Fulbright Journey',
                 excerpt: 'Lessons learned navigating American academia as a Rwandan researcher focused on African language technology.',
                 date: '2025-02-01',
+                readTime: '5 min read',
                 status: 'draft',
                 scheduledDate: null,
                 emoji: '🎓',
@@ -1359,7 +1375,7 @@
                     </div>
                     <div class="blog-card-content">
                         <div class="blog-card-meta">
-                            ${formatDate(post.date)}
+                            ${formatDate(post.date)} · ${post.readTime}
                             ${post.status !== 'published' ? `<span class="status-badge status-${post.status}">${post.status}</span>` : ''}
                         </div>
                         <h4>${post.title}</h4>
@@ -1422,4 +1438,8 @@
             });
         });
 
+        // Initialize blog posts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderBlogPosts();
+        });
         
