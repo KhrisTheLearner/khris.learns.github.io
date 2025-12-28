@@ -225,19 +225,23 @@
         .hero-image-frame {
             position: relative;
             width: 100%;
-            max-width: 450px;
-            aspect-ratio: 4/5;
+            max-width: 400px;
+            aspect-ratio: 1/1;
             margin-left: auto;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
         }
 
         .hero-image-frame::before {
             content: '';
             position: absolute;
-            top: -20px;
-            right: -20px;
+            top: -15px;
+            right: -15px;
             width: 100%;
             height: 100%;
             border: 3px solid var(--gold);
+            border-radius: 50%;
             z-index: -1;
         }
 
@@ -245,7 +249,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(20%);
+            object-position: center top;
+            filter: grayscale(10%);
         }
 
         .hero-image-placeholder {
@@ -1004,7 +1009,7 @@
             <p class="hero-greeting">Muraho · Hello · Welcome</p>
             <h1>I'm <span>Christophe</span>, building NLP for languages that matter.</h1>
             <p class="hero-description">
-                Fulbright Scholar & MS Data Science candidate at Mizzou, researching cross-lingual transfer learning for Kinyarwanda—working to bring 12 million speakers into the AI revolution.
+                Fulbright Scholar & researching cross-lingual transfer learning for Kinyarwanda—working to bring 12 million speakers into the AI revolution.
             </p>
             <div class="hero-links">
                 <a href="#research" class="btn btn-primary">View Research →</a>
@@ -1014,7 +1019,7 @@
         
         <div class="hero-image">
             <div class="hero-image-frame">
-                <img src="profile.jpg" alt="Christophe Mumaragishyika" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                <img src="profile.jpg" alt="Christophe Mumaragishyika">
             </div>
         </div>
     </section>
@@ -1232,7 +1237,7 @@
             I'm always interested in collaborations on African language technology, educational AI, or low-resource NLP research. Let's connect.
         </p>
 
-        <a href="/cdn-cgi/l/email-protection#bfc6d0cacd91dad2ded6d3ffd2ded6d391d2d6ccccd0cacdd691dadbca" class="contact-email"><span class="__cf_email__" data-cfemail="4831273d3a662d2529212408252921246625213b3b273d3a21662d2c3d">[email&#160;protected]</span></a>
+        <a href="/cdn-cgi/l/email-protection#0d7462787f2368606c64614d606c64612360647e7e62787f6423686978" class="contact-email"><span class="__cf_email__" data-cfemail="7c0513090e5219111d15103c111d15105211150f0f13090e1552191809">[email&#160;protected]</span></a>
 
         <div class="social-links">
             <a href="https://github.com/yourusername" class="social-link" aria-label="GitHub">
